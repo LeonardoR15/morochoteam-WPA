@@ -40,4 +40,29 @@
 ## 📂 Estructura del Proyecto
 
 ```text
-mor
+morochoteam-pwa/
+├── index.html                  # Pantalla de inicio / Login por rol
+├── trainer.html                # Panel de gestión del Personal Trainer
+├── alumno.html                 # Vista Mobile-First de entrenamiento del Alumno
+├── manifest.json               # Configuración de instalación PWA
+├── sw.js                       # Service Worker (caché y soporte offline)
+├── database.sql                # Esquema de base de datos y datos de prueba
+├── api/
+│   ├── config.php              # Conexión PDO a MySQL
+│   ├── auth.php                # Autenticación y manejo de sesión
+│   ├── alumnos.php             # CRUD de alumnos y estados
+│   ├── rutinas.php             # Gestión y clonación de rutinas semanales
+│   ├── registros.php           # Carga de pesos reales y ejercicios completados
+│   ├── ejercicios.php          # Catálogo y guía técnica de ejercicios
+│   └── pagos.php               # Registro de cuotas, entregas parciales e informes
+└── assets/
+    ├── css/
+    │   ├── variables.css       # Variables de marca, tipografías y temas Dark/Light
+    │   └── styles.css          # Estilos personalizados y componentes UI
+    ├── js/
+    │   ├── app.js              # Registro de Service Worker y utilidades globales
+    │   ├── theme.js            # Controlador de Dark Mode / Light Mode
+    │   ├── trainer.js          # Lógica del panel del entrenador
+    │   └── alumno.js           # Lógica de rutina, cronómetro y carga de pesos
+    └── img/
+        └── logo-morochoteam.png
