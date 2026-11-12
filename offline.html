@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="MorochoTeam sin conexión. Tus datos se sincronizan al recuperar internet.">
+  <meta name="theme-color" content="#0A0B08">
+  <meta name="color-scheme" content="light dark">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MorochoTeam">
+
+  <title>Sin conexión · MorochoTeam</title>
+
+  <link rel="icon" href="assets/img/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link href="assets/css/variables.css" rel="stylesheet">
+  <link href="assets/css/styles.css" rel="stylesheet">
+  <style>
+    .offline-card {
+      width: min(520px, 100%);
+      text-align: center;
+      align-items: center;
+    }
+    .offline-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.35rem;
+    }
+    .offline-brand .brand-name {
+      font-size: 1rem;
+    }
+    .offline-card .offline-icon {
+      width: 76px;
+      height: 76px;
+      display: grid;
+      place-items: center;
+      border-radius: 24px;
+      margin-bottom: 1.25rem;
+      background: rgba(204, 255, 0, 0.12);
+      border: 1px solid rgba(204, 255, 0, 0.28);
+      color: var(--color-primario);
+      font-size: 2rem;
+    }
+    .offline-card h1 {
+      font-size: clamp(1.7rem, 5vw, 2.2rem);
+      margin-bottom: 0.6rem;
+    }
+    .offline-card p {
+      max-width: 380px;
+      margin: 0 auto 1.5rem;
+    }
+    .offline-card .offline-note {
+      margin-top: 1.35rem;
+      margin-bottom: 0;
+      font-size: 0.75rem;
+      color: var(--color-texto-suave);
+    }
+    .offline-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      justify-content: center;
+    }
+    .offline-actions .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      min-height: 46px;
+      padding: 0.65rem 1.15rem;
+      border-radius: 12px;
+      font-family: var(--font-titulos);
+      font-size: 0.83rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    }
+    .offline-actions .btn-primary {
+      background: var(--color-primario);
+      border-color: var(--color-primario);
+      color: var(--color-primario-texto);
+    }
+    .offline-actions .btn-primary:hover {
+      background: var(--color-primario-hover);
+      border-color: var(--color-primario-hover);
+    }
+    .offline-actions .btn-outline-secondary {
+      background: transparent;
+      border-color: var(--color-borde);
+      color: var(--color-texto);
+    }
+    .offline-actions .btn-outline-secondary:hover {
+      background: var(--color-superficie-alt);
+    }
+    .offline-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.78rem;
+      color: var(--color-texto-suave);
+      margin-bottom: 1.25rem;
+    }
+    .offline-status .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-peligro);
+    }
+    .offline-status.online .dot {
+      background: var(--color-exito);
+    }
+  </style>
+</head>
+<body class="login-body">
+
+  <main class="login-page">
+    <section class="login-shell" aria-labelledby="offlineTitle" style="grid-template-columns:1fr">
+      <div class="login-card offline-card">
+        <div class="offline-brand">
+          <img class="brand-mark" src="assets/img/logo-mark.png" alt="" aria-hidden="true" width="42" height="42">
+          <span class="brand-name">MOROCHOTEAM</span>
+        </div>
+
+        <div class="offline-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 8.5a15 15 0 0 1 20 0"/>
+            <path d="M5 12a10 10 0 0 1 14 0"/>
+            <path d="M8.5 15.5a5 5 0 0 1 7 0"/>
+            <circle cx="12" cy="19" r="1" fill="currentColor" stroke="none"/>
+            <path d="M3 3l18 18"/>
+          </svg>
+        </div>
+
+        <span class="eyebrow">Modo sin conexión</span>
+        <h1 id="offlineTitle">No pudimos conectarnos</h1>
+        <p>
+          La aplicación quedó guardada en tu dispositivo, pero la rutina y la cuenta corriente
+          necesitan internet para sincronizarse. Revisá tu conexión e intentá de nuevo.
+        </p>
+
+        <div class="offline-status" id="offlineStatus" role="status">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="offlineStatusText">Sin conexión</span>
+        </div>
+
+        <div class="offline-actions">
+          <button type="button" class="btn btn-primary" id="btnRetry">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12a9 9 0 1 1-2.64-6.36"/>
+              <path d="M21 3v6h-6"/>
+            </svg>
+            Reintentar
+          </button>
+          <a class="btn btn-outline-secondary" href="./index.html">Ir al inicio</a>
+        </div>
+
+        <p class="offline-note">
+          Los datos sensibles de alumnos y pagos nunca se guardan en la caché del dispositivo.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var status = document.getElementById('offlineStatus');
+      var statusText = document.getElementById('offlineStatusText');
+      var retry = document.getElementById('btnRetry');
+
+      function syncStatus() {
+        var online = navigator.onLine;
+        status.classList.toggle('online', online);
+        statusText.textContent = online ? 'Conexión recuperada' : 'Sin conexión';
+      }
+
+      retry.addEventListener('click', function () {
+        if (navigator.onLine) {
+          location.reload();
+        } else {
+          syncStatus();
+        }
+      });
+
+      window.addEventListener('online', function () {
+        syncStatus();
+        location.reload();
+      });
+      window.addEventListener('offline', syncStatus);
+
+      syncStatus();
+    })();
+  </script>
+</body>
+</html>

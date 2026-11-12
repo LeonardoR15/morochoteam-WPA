@@ -1,0 +1,143 @@
+/* ==========================================================================
+   MorochoTeam · Sistema de diseño
+   Variables de marca, tipografías y temas (light / dark)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap');
+
+/* --------------------------------------------------------------------------
+   Tokens globales (compartidos por ambos temas)
+   -------------------------------------------------------------------------- */
+:root {
+  /* Marca */
+  --color-primario: #CCFF00;
+  --color-primario-hover: #B8E600;
+  --color-primario-texto: #111111;
+  --color-primario-oscuro: #86A800;
+
+  /* Semánticos */
+  --color-exito: #22C55E;
+  --color-advertencia: #F59E0B;
+  --color-peligro: #EF4444;
+  --color-info: #38BDF8;
+
+  /* Tipografías */
+  --font-titulos: 'Outfit', sans-serif;
+  --font-cuerpo: 'Inter', sans-serif;
+
+  /* Radios */
+  --radio-xs: 8px;
+  --radio-sm: 12px;
+  --radio-md: 16px;
+  --radio-lg: 22px;
+  --radio-xl: 28px;
+  --radio-pill: 999px;
+
+  /* Espaciado / layout */
+  --sidebar-ancho: 268px;
+  --contenido-max: 1360px;
+  --topbar-alto: 74px;
+
+  /* Movimiento */
+  --transicion: 180ms cubic-bezier(0.2, 0.7, 0.3, 1);
+  --transicion-lenta: 320ms cubic-bezier(0.2, 0.7, 0.3, 1);
+
+  /* Sombra del acento */
+  --sombra-primario: 0 10px 30px rgba(204, 255, 0, 0.18);
+  --sombra-primario-fuerte: 0 16px 40px rgba(204, 255, 0, 0.26);
+}
+
+/* --------------------------------------------------------------------------
+   Tema claro (por defecto)
+   -------------------------------------------------------------------------- */
+:root,
+[data-theme='light'] {
+  color-scheme: light;
+
+  --color-fondo: #F4F5F0;
+  --color-fondo-alt: #EDEFE7;
+  --color-superficie: #FFFFFF;
+  --color-superficie-2: #F0F2EA;
+  --color-superficie-3: #E4E7DC;
+
+  --color-texto: #141610;
+  --color-texto-suave: #5F655A;
+  --color-texto-tenue: #8B9184;
+  --color-borde: rgba(17, 22, 10, 0.10);
+  --color-borde-fuerte: rgba(17, 22, 10, 0.18);
+
+  --color-primario-suave: rgba(204, 255, 0, 0.22);
+  --color-primario-tenue: rgba(204, 255, 0, 0.10);
+  --color-primario-borde: rgba(150, 190, 0, 0.45);
+
+  --exito-suave: rgba(34, 197, 94, 0.12);
+  --advertencia-suave: rgba(245, 158, 11, 0.14);
+  --peligro-suave: rgba(239, 68, 68, 0.12);
+  --info-suave: rgba(56, 189, 248, 0.12);
+
+  --sombra-sm: 0 1px 2px rgba(20, 26, 10, 0.05), 0 4px 12px rgba(20, 26, 10, 0.05);
+  --sombra-md: 0 8px 30px rgba(20, 26, 10, 0.08);
+  --sombra-lg: 0 24px 60px rgba(20, 26, 10, 0.12);
+
+  --degradado-fondo:
+    radial-gradient(1100px 520px at 78% -10%, rgba(204, 255, 0, 0.16), transparent 62%),
+    radial-gradient(900px 480px at 0% 100%, rgba(34, 197, 94, 0.06), transparent 60%);
+
+  --overlay: rgba(15, 19, 10, 0.48);
+  --scrim-sidebar: rgba(8, 10, 6, 0.45);
+
+  --bs-body-bg: var(--color-fondo);
+  --bs-body-color: var(--color-texto);
+  --bs-border-color: var(--color-borde);
+  --bs-secondary-color: var(--color-texto-suave);
+  --bs-emphasis-color: var(--color-texto);
+  --bs-link-color: #5C7200;
+  --bs-link-hover-color: #425300;
+}
+
+/* --------------------------------------------------------------------------
+   Tema oscuro
+   -------------------------------------------------------------------------- */
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-fondo: #0A0B08;
+  --color-fondo-alt: #0E100C;
+  --color-superficie: #141610;
+  --color-superficie-2: #1B1E17;
+  --color-superficie-3: #252A20;
+
+  --color-texto: #F4F6EE;
+  --color-texto-suave: #A7AEA0;
+  --color-texto-tenue: #78806F;
+  --color-borde: rgba(255, 255, 255, 0.09);
+  --color-borde-fuerte: rgba(255, 255, 255, 0.18);
+
+  --color-primario-suave: rgba(204, 255, 0, 0.14);
+  --color-primario-tenue: rgba(204, 255, 0, 0.07);
+  --color-primario-borde: rgba(204, 255, 0, 0.40);
+
+  --exito-suave: rgba(34, 197, 94, 0.16);
+  --advertencia-suave: rgba(245, 158, 11, 0.16);
+  --peligro-suave: rgba(239, 68, 68, 0.16);
+  --info-suave: rgba(56, 189, 248, 0.14);
+
+  --sombra-sm: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.25);
+  --sombra-md: 0 10px 34px rgba(0, 0, 0, 0.38);
+  --sombra-lg: 0 30px 70px rgba(0, 0, 0, 0.55);
+
+  --degradado-fondo:
+    radial-gradient(1100px 540px at 82% -12%, rgba(204, 255, 0, 0.10), transparent 60%),
+    radial-gradient(900px 520px at -10% 100%, rgba(34, 197, 94, 0.05), transparent 55%);
+
+  --overlay: rgba(0, 0, 0, 0.66);
+  --scrim-sidebar: rgba(0, 0, 0, 0.62);
+
+  --bs-body-bg: var(--color-fondo);
+  --bs-body-color: var(--color-texto);
+  --bs-border-color: var(--color-borde);
+  --bs-secondary-color: var(--color-texto-suave);
+  --bs-emphasis-color: var(--color-texto);
+  --bs-link-color: var(--color-primario);
+  --bs-link-hover-color: var(--color-primario-hover);
+}

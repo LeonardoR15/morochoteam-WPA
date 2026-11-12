@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Panel de gestión de alumnos, rutinas y cuentas corrientes de MorochoTeam.">
+  <meta name="theme-color" content="#0A0B08">
+  <meta name="color-scheme" content="light dark">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MorochoTeam Trainer">
+
+  <title>Panel entrenador · MorochoTeam</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="assets/img/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="assets/css/variables.css" rel="stylesheet">
+  <link href="assets/css/styles.css" rel="stylesheet">
+
+  <script src="assets/js/theme.js"></script>
+</head>
+<body class="app-body" data-page="trainer">
+
+  <div class="app-layout">
+    <!-- ==================================================================
+         Sidebar
+         ================================================================== -->
+    <aside class="app-sidebar" id="appSidebar" aria-label="Navegación principal">
+      <div class="sidebar-inner">
+        <div class="sidebar-brand">
+          <img class="brand-mark" src="assets/img/logo-mark.png" alt="" aria-hidden="true" width="42" height="42">
+          <div>
+            <span class="brand-name">MOROCHOTEAM</span>
+            <span class="brand-sub">Panel entrenador</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="sidebar-label">Gestión</div>
+          <nav class="sidebar-nav">
+            <button type="button" class="sidebar-link active" data-view="dashboard">
+              <i class="bi bi-grid-1x2-fill"></i>
+              Resumen
+              <span class="badge rounded-pill d-none" id="navAlertBadge">0</span>
+            </button>
+            <button type="button" class="sidebar-link" data-view="alumnos">
+              <i class="bi bi-people-fill"></i>
+              Alumnos
+            </button>
+            <button type="button" class="sidebar-link" data-view="biblioteca">
+              <i class="bi bi-collection-play-fill"></i>
+              Biblioteca
+            </button>
+          </nav>
+        </div>
+
+        <div class="sidebar-bottom">
+          <div class="sidebar-tip">
+            <div class="tip-title"><i class="bi bi-calendar-week-fill me-1"></i> Semana en curso</div>
+            <p id="sidebarWeek">Cargando semana…</p>
+          </div>
+
+          <div class="sidebar-user">
+            <span class="avatar avatar-sm" id="sidebarAvatar">MT</span>
+            <div class="sidebar-user-info">
+              <strong id="sidebarUserName">Entrenador</strong>
+              <span id="sidebarUserRole">Cargando…</span>
+            </div>
+            <button type="button" class="btn btn-ghost ms-auto" data-logout title="Cerrar sesión" aria-label="Cerrar sesión"
+                    style="width:34px;height:34px;min-height:34px;padding:0;border-radius:9px;">
+              <i class="bi bi-box-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- ==================================================================
+         Contenido principal
+         ================================================================== -->
+    <div class="app-main">
+      <header class="app-topbar">
+        <button type="button" class="btn btn-icon d-lg-none" id="sidebarToggle" aria-label="Abrir menú">
+          <i class="bi bi-list"></i>
+        </button>
+
+        <div class="topbar-title">
+          <span class="eyebrow" id="pageEyebrow">Panel entrenador</span>
+          <h1 id="pageTitle">Resumen</h1>
+        </div>
+
+        <div class="topbar-actions">
+          <button type="button" class="btn btn-icon d-none" data-install title="Instalar aplicación" aria-label="Instalar aplicación">
+            <i class="bi bi-download"></i>
+          </button>
+
+          <button type="button" class="btn btn-icon" id="topbarAlerts" data-view="dashboard" title="Ver alertas" aria-label="Ver alertas">
+            <i class="bi bi-bell-fill"></i>
+            <span class="notification-dot d-none" id="alertBadge">0</span>
+          </button>
+
+          <button type="button" class="btn btn-icon" data-theme-toggle aria-label="Cambiar tema">
+            <span data-theme-icon class="bi bi-moon-stars-fill"></span>
+          </button>
+
+          <div class="dropdown">
+            <button type="button" class="topbar-user" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Menú de usuario">
+              <span class="avatar avatar-sm" id="topbarAvatar">MT</span>
+              <span class="topbar-user-name" id="topbarUserName">Entrenador</span>
+              <i class="bi bi-chevron-down text-tenue" style="font-size:.7rem"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow">
+              <li class="px-3 py-2">
+                <div class="fw-semibold small" id="dropdownUserName">Entrenador</div>
+                <div class="text-tenue" style="font-size:.7rem" id="dropdownUserEmail">trainer@morochoteam.com</div>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <button type="button" class="dropdown-item" data-logout>
+                  <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <main class="app-content">
+
+        <!-- ==============================================================
+             Dashboard
+             ============================================================== -->
+        <section class="app-view" id="view-dashboard">
+          <div class="hero-panel">
+            <span class="eyebrow">Tu equipo hoy</span>
+            <h2 id="heroGreeting">Hola, entrenador. Todo bajo control.</h2>
+            <p id="heroDate">Cargando la fecha…</p>
+            <div class="hero-actions">
+              <button type="button" class="btn btn-primary" data-view="alumnos">
+                <i class="bi bi-people-fill"></i> Ver alumnos
+              </button>
+              <button type="button" class="btn btn-outline-soft" id="btnRefreshDashboard">
+                <i class="bi bi-arrow-clockwise"></i> Actualizar datos
+              </button>
+            </div>
+          </div>
+
+          <div class="stat-grid mt-3">
+            <article class="stat-card">
+              <div class="stat-top">
+                <span class="stat-icon"><i class="bi bi-people-fill"></i></span>
+                <span class="badge-soft neutral">Activos</span>
+              </div>
+              <div class="stat-value" id="statAlumnos">—</div>
+              <div class="stat-label">Alumnos</div>
+              <div class="stat-foot">En seguimiento actualmente</div>
+            </article>
+
+            <article class="stat-card is-success">
+              <div class="stat-top">
+                <span class="stat-icon"><i class="bi bi-check2-circle"></i></span>
+                <span class="status-badge is-success"><span class="status-dot"></span>OK</span>
+              </div>
+              <div class="stat-value" id="statAlDia">—</div>
+              <div class="stat-label">Al día</div>
+              <div class="stat-foot">Cuota regularizada</div>
+            </article>
+
+            <article class="stat-card is-warning">
+              <div class="stat-top">
+                <span class="stat-icon"><i class="bi bi-hourglass-split"></i></span>
+                <span class="status-badge is-warning"><span class="status-dot"></span>Parcial</span>
+              </div>
+              <div class="stat-value" id="statParcial">—</div>
+              <div class="stat-label">Con saldo</div>
+              <div class="stat-foot">Entregas parciales pendientes</div>
+            </article>
+
+            <article class="stat-card is-danger">
+              <div class="stat-top">
+                <span class="stat-icon"><i class="bi bi-exclamation-triangle-fill"></i></span>
+                <span class="status-badge is-danger"><span class="status-dot"></span>Vencido</span>
+              </div>
+              <div class="stat-value" id="statVencido">—</div>
+              <div class="stat-label">Vencidos</div>
+              <div class="stat-foot" id="statDeudaFoot">Deuda total: —</div>
+            </article>
+          </div>
+
+          <div class="row g-3 mt-1">
+            <div class="col-xl-6">
+              <div class="surface surface-pad h-100">
+                <div class="section-head">
+                  <div>
+                    <h2><i class="bi bi-bell-fill me-1 text-lime"></i> Alertas administrativas</h2>
+                    <p>Cuotas vencidas y saldos pendientes del equipo.</p>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="badge-soft neutral" id="alertasCount">0 alertas</span>
+                    <button type="button" class="btn btn-icon" id="btnRefreshAlertas" aria-label="Actualizar alertas" title="Actualizar alertas">
+                      <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="alert-list" id="alertasList">
+                  <div class="loading-block">
+                    <div class="skeleton skeleton-line w-80"></div>
+                    <div class="skeleton skeleton-line w-60"></div>
+                    <div class="skeleton skeleton-line w-80"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-6">
+              <div class="surface surface-pad h-100">
+                <div class="section-head">
+                  <div>
+                    <h2>Estado del equipo</h2>
+                    <p>Semáforo de cuota y rutinas de la semana.</p>
+                  </div>
+                  <button type="button" class="btn btn-sm btn-outline-soft" data-view="alumnos">
+                    Ver todos <i class="bi bi-arrow-right"></i>
+                  </button>
+                </div>
+                <div class="student-list" id="dashboardAlumnos">
+                  <div class="loading-block">
+                    <div class="skeleton skeleton-line w-80"></div>
+                    <div class="skeleton skeleton-line w-60"></div>
+                    <div class="skeleton skeleton-line w-80"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==============================================================
+             Listado de alumnos
+             ============================================================== -->
+        <section class="app-view d-none" id="view-alumnos">
+          <div class="surface surface-pad">
+            <div class="section-head">
+              <div>
+                <span class="eyebrow">CRM del equipo</span>
+                <h2>Alumnos</h2>
+                <p>Buscá, revisá el semáforo de pago y abrí la ficha completa.</p>
+              </div>
+              <span class="badge-soft lime" id="alumnosCount">— activos</span>
+            </div>
+
+            <div class="list-toolbar">
+              <div class="input-icon">
+                <i class="bi bi-search"></i>
+                <input type="search" class="form-control" id="searchAlumnos" placeholder="Buscar por nombre, email o teléfono…" autocomplete="off">
+              </div>
+
+              <div class="filter-chips" role="group" aria-label="Filtrar por estado de cuenta">
+                <button type="button" class="filter-chip active" data-estado="todos">
+                  Todos <span class="count" id="countTodos">0</span>
+                </button>
+                <button type="button" class="filter-chip" data-estado="al_dia">
+                  Al día <span class="count" id="countAlDia">0</span>
+                </button>
+                <button type="button" class="filter-chip" data-estado="parcial">
+                  Parcial <span class="count" id="countParcial">0</span>
+                </button>
+                <button type="button" class="filter-chip" data-estado="vencido">
+                  Vencido <span class="count" id="countVencido">0</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="student-list" id="alumnosList">
+              <div class="loading-block">
+                <div class="skeleton skeleton-line w-80"></div>
+                <div class="skeleton skeleton-line w-60"></div>
+                <div class="skeleton skeleton-line w-80"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==============================================================
+             Ficha del alumno
+             ============================================================== -->
+        <section class="app-view d-none" id="view-alumno">
+          <button type="button" class="back-link" id="btnVolverAlumnos">
+            <i class="bi bi-arrow-left"></i> Volver a alumnos
+          </button>
+          <div id="detalleAlumnoContent">
+            <div class="surface surface-pad">
+              <div class="loading-block">
+                <div class="skeleton skeleton-line w-40"></div>
+                <div class="skeleton skeleton-line w-80"></div>
+                <div class="skeleton skeleton-line w-60"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==============================================================
+             Biblioteca de ejercicios
+             ============================================================== -->
+        <section class="app-view d-none" id="view-biblioteca">
+          <div class="surface surface-pad">
+            <div class="section-head">
+              <div>
+                <span class="eyebrow">Técnica y referencia</span>
+                <h2>Biblioteca de ejercicios</h2>
+                <p>Imágenes de ejecución y tips posturales para compartir con tus alumnos.</p>
+              </div>
+              <span class="badge-soft lime" id="bibliotecaCount">— ejercicios</span>
+            </div>
+
+            <div class="list-toolbar">
+              <div class="input-icon">
+                <i class="bi bi-search"></i>
+                <input type="search" class="form-control" id="searchBiblioteca" placeholder="Buscar ejercicio o grupo muscular…" autocomplete="off">
+              </div>
+              <select class="form-select" id="filtroGrupo" style="max-width:220px" aria-label="Filtrar por grupo muscular">
+                <option value="">Todos los grupos</option>
+              </select>
+            </div>
+
+            <div class="library-grid" id="bibliotecaGrid">
+              <div class="loading-block">
+                <div class="skeleton skeleton-line w-80"></div>
+                <div class="skeleton skeleton-line w-60"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       Modal · Registrar pago
+       ==================================================================== -->
+  <div class="modal fade" id="modalPago" tabindex="-1" aria-labelledby="modalPagoTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content" id="formPago">
+        <div class="modal-header">
+          <div>
+            <span class="eyebrow">Cuenta corriente</span>
+            <h5 class="modal-title" id="modalPagoTitle">Registrar entrega</h5>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="pagoAlumnoId">
+          <p class="small text-soft mb-3">
+            Alumno: <strong class="text-body" id="pagoAlumnoNombre">—</strong>
+          </p>
+
+          <div class="row g-3">
+            <div class="col-6">
+              <label class="form-label" for="pagoPeriodo">Período</label>
+              <input type="month" class="form-control" id="pagoPeriodo" required>
+            </div>
+            <div class="col-6">
+              <label class="form-label" for="pagoMonto">Monto abonado</label>
+              <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input type="number" class="form-control" id="pagoMonto" min="1" step="1" inputmode="decimal" required>
+              </div>
+            </div>
+            <div class="col-6">
+              <label class="form-label" for="pagoFecha">Fecha de pago</label>
+              <input type="date" class="form-control" id="pagoFecha" required>
+            </div>
+            <div class="col-6">
+              <label class="form-label" for="pagoMetodo">Método</label>
+              <select class="form-select" id="pagoMetodo" required>
+                <option value="efectivo">Efectivo</option>
+                <option value="transferencia">Transferencia</option>
+                <option value="debito">Débito</option>
+                <option value="credito">Crédito</option>
+                <option value="mercadopago">Mercado Pago</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="pagoObs">Observaciones <span class="text-tenue fw-normal">(opcional)</span></label>
+              <textarea class="form-control" id="pagoObs" rows="2" maxlength="255" placeholder="Ej: entrega parcial, saldo acordado…"></textarea>
+            </div>
+          </div>
+
+          <div class="payment-summary mt-3" id="pagoPreview">
+            Seleccioná un período para ver el detalle.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="pagoSubmit">
+            <i class="bi bi-check2-circle"></i> Registrar pago
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       Modal · Agregar ejercicio a la rutina
+       ==================================================================== -->
+  <div class="modal fade" id="modalEjercicio" tabindex="-1" aria-labelledby="modalEjercicioTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <form class="modal-content" id="formEjercicio">
+        <div class="modal-header">
+          <div>
+            <span class="eyebrow">Gestor de rutinas</span>
+            <h5 class="modal-title" id="modalEjercicioTitle">Agregar ejercicio</h5>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="ejAlumnoId">
+          <input type="hidden" id="ejSemana">
+          <input type="hidden" id="ejDia">
+
+          <p class="small text-soft mb-3">
+            <strong class="text-body" id="ejAlumnoNombre">—</strong> ·
+            <span id="ejDiaLabel">—</span> ·
+            semana del <span id="ejSemanaLabel">—</span>
+          </p>
+
+          <div class="mb-3">
+            <label class="form-label" for="ejEjercicio">Ejercicio</label>
+            <select class="form-select" id="ejEjercicio" required>
+              <option value="">Elegí un ejercicio de la biblioteca…</option>
+            </select>
+          </div>
+
+          <div class="row g-3">
+            <div class="col-4">
+              <label class="form-label" for="ejSeries">Series</label>
+              <input type="number" class="form-control" id="ejSeries" min="1" max="50" value="3" required>
+            </div>
+            <div class="col-4">
+              <label class="form-label" for="ejReps">Reps objetivo</label>
+              <input type="text" class="form-control" id="ejReps" value="10" maxlength="20" required>
+            </div>
+            <div class="col-4">
+              <label class="form-label" for="ejPeso">Peso (kg)</label>
+              <input type="number" class="form-control" id="ejPeso" min="0" max="1000" step="0.5" placeholder="—">
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="ejNotas">Nota para el alumno <span class="text-tenue fw-normal">(opcional)</span></label>
+              <input type="text" class="form-control" id="ejNotas" maxlength="255" placeholder="Ej: tempo controlado, cuidar técnica…">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="ejSubmit">
+            <i class="bi bi-plus-lg"></i> Agregar a la rutina
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       Modal · Clonar semana anterior
+       ==================================================================== -->
+  <div class="modal fade" id="modalClonar" tabindex="-1" aria-labelledby="modalClonarTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content" id="formClonar">
+        <div class="modal-header">
+          <div>
+            <span class="eyebrow">Sobrecarga progresiva</span>
+            <h5 class="modal-title" id="modalClonarTitle">Clonar semana anterior</h5>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="clonarAlumnoId">
+          <input type="hidden" id="clonarSemana">
+
+          <div class="payment-summary mb-3">
+            <div class="summary-row"><span>Semana destino</span><strong id="clonarSemanaTexto">—</strong></div>
+            <div class="summary-row"><span>Semana origen</span><strong id="clonarOrigenTexto">—</strong></div>
+            <div class="summary-row"><span>Alumno</span><strong id="clonarAlumnoNombre">—</strong></div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="clonarIncremento">Ajuste de peso por ejercicio (kg)</label>
+            <div class="input-group">
+              <span class="input-group-text">+</span>
+              <input type="number" class="form-control" id="clonarIncremento" min="-50" max="50" step="0.5" value="0">
+              <span class="input-group-text">kg</span>
+            </div>
+            <div class="form-hint">Se suma al peso objetivo de cada ejercicio. Usá 0 para copiar exactamente igual.</div>
+          </div>
+
+          <div class="form-check d-none" id="clonarSobrescribirWrap">
+            <input class="form-check-input" type="checkbox" id="clonarSobrescribir">
+            <label class="form-check-label small" for="clonarSobrescribir">
+              La semana destino ya tiene ejercicios. Reemplazarlos por la copia.
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="clonarSubmit">
+            <i class="bi bi-copy"></i> Clonar semana
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       Modal · Técnica del ejercicio
+       ==================================================================== -->
+  <div class="modal fade" id="modalTecnica" tabindex="-1" aria-labelledby="tecTitulo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <span class="eyebrow">Técnica</span>
+            <h5 class="modal-title" id="tecTitulo">Ejercicio</h5>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="technique-figure">
+            <img id="tecImagen" src="assets/img/ejercicio-placeholder.svg" alt="Demostración del ejercicio" loading="lazy">
+          </div>
+          <div class="technique-meta">
+            <span class="badge-soft lime" id="tecGrupo">Grupo muscular</span>
+          </div>
+          <div class="technique-instructions" id="tecInstrucciones">—</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-soft" data-bs-dismiss="modal">Entendido</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+  <script src="assets/js/app.js" defer></script>
+  <script src="assets/js/trainer.js" defer></script>
+</body>
+</html>
